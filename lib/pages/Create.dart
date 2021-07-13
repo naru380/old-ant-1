@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:ant_1/pages/Confirm.dart';
 import 'package:flutter/material.dart';
 
 class Create extends StatefulWidget {
@@ -17,10 +16,13 @@ class _CreateState extends State<Create> {
     String text1 = _text1;
     String _text2 = '$_thr';
     String _title;
+    var ExampleImage = ModalRoute.of(context).settings.arguments;
+    // var ExampleImage = AssetImage('lib/image/arrow.jpeg');
+    var NewImage = ExampleImage;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue[900],
+        // backgroundColor: Colors.blue[900],
         title: Text(
           'Create',
           style: TextStyle(fontSize: 20),
@@ -33,8 +35,12 @@ class _CreateState extends State<Create> {
             children: [
               Column(
                 children: [
-                  Image(
-                    image: AssetImage('lib/image/example.jpeg'),
+                  // Image(
+                  //   image: ExampleImage,
+                  //   width: 180,
+                  // ),
+                  Image.file(
+                    ExampleImage,
                     width: 180,
                   ),
                   Text(
@@ -49,10 +55,15 @@ class _CreateState extends State<Create> {
                 image: AssetImage('lib/image/arrow.jpeg'),
                 width: 30,
               ),
+              // Image.file(ExampleImage),
               Column(
                 children: [
-                  Image(
-                    image: AssetImage('lib/image/example.jpeg'),
+                  // Image(
+                  //   image: NewImage,
+                  //   width: 180,
+                  // ),
+                  Image.file(
+                    ExampleImage,
                     width: 180,
                   ),
                   Text(
@@ -86,7 +97,7 @@ class _CreateState extends State<Create> {
                           () {
                             try {
                               _dot = _text1 as double;
-                            } catch(e) {
+                            } catch (e) {
                               _text1 = text1;
                             }
                             text1 = _text1;
@@ -177,11 +188,9 @@ class _CreateState extends State<Create> {
                 borderRadius: const BorderRadius.all(Radius.circular(100))),
             child: GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) {
-                    return Confirm();
-                  }),
+                Navigator.of(context).pushNamed(
+                  '/confirm',
+                  arguments: NewImage,
                 );
               },
               child: Center(

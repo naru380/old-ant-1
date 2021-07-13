@@ -1,28 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ant_1/pages/Confirm.dart';
-import 'package:ant_1/pages/Create.dart';
-import 'package:ant_1/pages/setting.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
+import 'dart:io';
 // import './CreatePicture.dart';
-
-class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
-    final args = settings.arguments;
-
-    switch (settings.name) {
-      case '/':
-        return MaterialPageRoute(builder: (_) => TopScreen());
-      case '/create':
-        return MaterialPageRoute(
-          builder: (_) => Create(),
-        );
-      case '/confirm':
-        MaterialPageRoute(
-          builder: (_) => Confirm(),
-        );
-    }
-  }
-}
 
 void main() => runApp(
       MyApp(),
@@ -49,8 +30,32 @@ class TopScreen extends StatefulWidget {
 
 List<Widget> containerChild = [];
 
+class ImagePickerUtil {
+  static Future<PickedFile> getImage({
+    ImageSource source
+  }) async {
+    final ImagePicker picker = ImagePicker();
+    final file = await picker.getImage(source: source);
+    return file;
+  }
+}
+
 class _TopScreenState extends State<TopScreen> {
   int cnt = 0;
+  var ExsampleImage = AssetImage('lib/image/example.jpeg');
+  final picker = ImagePicker();
+
+  // Future _getImage() async {
+  //   final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = pickedFile;
+  //     } else {
+  //       Navigator.pop(context);
+  //     }
+  //   });
+  // }
 
   @override
   void initState() {
@@ -71,14 +76,7 @@ class _TopScreenState extends State<TopScreen> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () async {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return SettingScreen();
-                  },
-                ),
-              );
+              Navigator.of(context).pushNamed('/setting');
             },
           ),
         ],
@@ -105,26 +103,23 @@ class _TopScreenState extends State<TopScreen> {
                   CupertinoDialogAction(
                     child: const Text('カメラ'),
                     onPressed: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return Create();
-                          },
-                        ),
+                      final _image = await picker.getImage(source: ImageSource.camera);
+                      File _fileImage = File(_image.path);
+                      Navigator.of(context).pushNamed(
+                        '/create',
+                        arguments: _fileImage,
                       );
                     },
                   ),
                   CupertinoDialogAction(
                     child: const Text('カメラロール'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return Create();
-                          },
-                        ),
+                    onPressed: () async {
+                      final _image = await ImagePickerUtil.getImage(source: ImageSource.gallery);
+                      // final _image = await picker.getImage(source: ImageSource.gallery);
+                      File _fileImage = File(_image.path);
+                      Navigator.of(context).pushNamed(
+                        '/create',
+                        arguments: _fileImage,
                       );
                     },
                   ),

@@ -9,16 +9,12 @@ class Confirm extends StatefulWidget {
 
 class _ConfirmState extends State<Confirm> {
   @override
-  double _dot = 50.0;
-  double _thr = 50.0;
-
   Widget build(BuildContext context) {
-    String _text1 = '$_dot';
-    String _text2 = '$_thr';
+var DotImage = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue[900],
+        // backgroundColor: Colors.blue[900],
         title: Text(
           'Confirm',
           style: TextStyle(fontSize: 20),
@@ -28,8 +24,8 @@ class _ConfirmState extends State<Confirm> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Center(
-            child: Image(
-              image: AssetImage('lib/image/example.jpeg'),
+            child: Image.file(
+              DotImage,
               width: 300,
             ),
           ),
@@ -42,7 +38,8 @@ class _ConfirmState extends State<Confirm> {
                   borderRadius: const BorderRadius.all(Radius.circular(100))),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pop(context,Navigator.pop(context,Navigator.pop(context)));
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/', (_) => false);
                 },
                 child: Center(
                   child: Text(

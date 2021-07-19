@@ -1,3 +1,4 @@
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
@@ -92,6 +93,7 @@ class _CreateState extends State<Create> {
                     height: 35,
                     child: TextField(
                       controller: TextEditingController(text: _text1),
+                      keyboardType: TextInputType.number,
                       onChanged: (_text1) {
                         setState(
                           () {
@@ -138,6 +140,7 @@ class _CreateState extends State<Create> {
                     height: 35,
                     child: TextField(
                       controller: TextEditingController(text: _text2),
+                      keyboardType: TextInputType.number,
                       onChanged: (_text2) {
                         setState(
                           () {
@@ -209,3 +212,4 @@ class _CreateState extends State<Create> {
     );
   }
 }
+
